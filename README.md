@@ -1,4 +1,4 @@
-## NestJS-Prisma-React-ReduxJS/Toolkit
+## NestJS-Prisma-PostgreSQL-React-ReduxJS/Toolkit
 
 ### Installation
 
@@ -9,5 +9,5 @@
     - The `.env.example` file is provided as reference. 
 4. Apply database migrations: `npm run setup` 
 5. Start the project:  `npm run start:dev`
-6. Access the project at http://localhost:5000/ for the built react app
+6. Access the project at http://localhost:5000/ for the built react app or http://localhost:5000/docs for the swagger docs and http://localhost:5000/api for accessing api endpoints
 7. Run the React app in dev out of the `frontend` directory with `npm run start`
