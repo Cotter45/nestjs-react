@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useAppSelector, useAppDispatch } from '../../app/redux_hooks';
+import { useAppSelector, useAppDispatch } from '../../app/redux/redux_hooks';
 import {
   decrement,
   increment,

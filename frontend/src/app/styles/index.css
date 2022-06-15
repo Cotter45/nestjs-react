@@ -1,0 +1,87 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#menu-toggle {
+  display: none;
+}
+
+.hamburger {
+  width: 48px;
+  height: 48px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.bun {
+  width: 30px;
+  height: 35px;
+  position: absolute;
+  top: 9px;
+  left: 9px;
+  transition: transform 0.18s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.15s;
+}
+
+.bun-crust {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background-color: black;
+  border-radius: 1px;
+  position: absolute;
+  left: 7px;
+  transition: transform 0.1596s cubic-bezier(0.52, 0.16, 0.52, 0.84) 0.2s;
+}
+
+.bun-crust-top {
+  top: 14px;
+  transform: translateY(-3px);
+}
+
+.bun-crust-bottom {
+  bottom: 14px;
+  transform: translateY(3px);
+}
+
+#menu-toggle:checked + .hamburger .bun-top {
+  transform: rotate(45deg);
+}
+
+#menu-toggle:checked + .hamburger .bun-bottom {
+  transform: rotate(-45deg);
+}
+
+#menu-toggle:checked + .hamburger .bun-crust-top,
+#menu-toggle:checked + .hamburger .bun-crust-bottom {
+  transform: none;
+  transition: transform 0.1806s cubic-bezier(0.04, 0.04, 0.12, 0.96);
+}
+
+.menu {
+  position: absolute;
+  top: 80px;
+  right: 0;
+  z-index: 10;
+  width: 75vw;
+  height: 90vh;
+  overflow-y: auto;
+  background-color: #fff;
+  transition: max-width 0.5s ease-in-out;
+}
+
+.menu-item:hover {
+  background-color: rgb(71, 85, 105);
+  color: rgb(137, 207, 203);
+  transition: all 0.2s ease-in-out;
+}

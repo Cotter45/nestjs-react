@@ -60,6 +60,39 @@ export class UsersService {
     );
   }
 
+  async restore(req: any, res: any, jwt: JwtService): Promise<any> {
+    const { token } = req.cookies;
+
+    if (!token) {
+      res.clearCookie('token');
+      return new HttpException('No token provided', HttpStatus.UNAUTHORIZED);
+    }
+
+    try {
+      const decoded = jwt.verify(token, { secret: process.env.JWT_SECRET });
+      const { data } = decoded;
+      const { id } = data;
+      const user = await this.prisma.user.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      });
+      if (user) {
+        return { user };
+      }
+    } catch (e) {
+      return new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+    }
+  }
+
+  async logout(res: any) {
+    res.clearCookie('token');
+    res.send({ message: 'Logged out' });
+  }
+
   async findAll() {
     return await this.prisma.user.findMany({
       select: {

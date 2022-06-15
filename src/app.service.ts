@@ -8,6 +8,10 @@ export class AppService implements OnApplicationBootstrap {
 
   onApplicationBootstrap() {
     const server: Server = this.refHost.httpAdapter.getHttpServer();
-    server.keepAliveTimeout = 60 * 60 * 1000;
+    server.keepAliveTimeout = 60;
+  }
+
+  getHello(): string {
+    return 'Hello World!';
   }
 }

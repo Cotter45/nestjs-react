@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AppController } from './app.controller';
@@ -10,6 +15,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { isAuthenticated } from './app.middleware';
 import { ArticlesController } from './articles/articles.controller';
 import { UsersService } from './users/users.service';
+import { UsersController } from './users/users.controller';
 
 @Module({
   imports: [
@@ -28,11 +34,11 @@ import { UsersService } from './users/users.service';
   controllers: [AppController],
   providers: [AppService, UsersService],
 })
-export class AppModule {
+export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(isAuthenticated)
       .exclude({ path: '/', method: RequestMethod.GET })
-      .forRoutes(ArticlesController);
+      .forRoutes(ArticlesController, UsersController);
   }
 }

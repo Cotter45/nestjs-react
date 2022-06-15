@@ -1,59 +1,24 @@
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
-import NavBar from './features/navbar/Navbar';
+import { useEffect, useState } from 'react';
+import { useAppDispatch } from './app/redux/redux_hooks';
+import { restore } from './features/auth/sessionSlice';
+import NavBar from './components/navbar/Navbar';
 
 function App() {
+  const dispatch = useAppDispatch();
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (loaded) return;
+
+    dispatch(restore());
+    setLoaded(true);
+  }, [loaded, dispatch]);
 
   return (
-    <main className="App">
+    <>
       <NavBar />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </main>
+      <main className="min-h-screen w-full bg-slate-200"></main>
+    </>
   );
 }
 

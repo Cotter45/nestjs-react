@@ -1,39 +1,31 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Res,
-} from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
-import { JwtService } from '@nestjs/jwt';
 
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
-  constructor(
-    private readonly usersService: UsersService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  @ApiCreatedResponse({ type: UserEntity })
-  async signup(@Body() createUserDto: CreateUserDto) {
-    return await this.usersService.signup(createUserDto);
-  }
+  // @Post()
+  // @ApiCreatedResponse({ type: UserEntity })
+  // async signup(@Body() createUserDto: CreateUserDto) {
+  //   return await this.usersService.signup(createUserDto);
+  // }
 
-  @Post('signin')
-  @ApiOkResponse({ type: UserEntity })
-  async signin(@Res() res: any, @Body() createUserDto: CreateUserDto) {
-    return await this.usersService.signin(createUserDto, this.jwtService, res);
-  }
+  // @Post('signin')
+  // @ApiOkResponse({ type: UserEntity })
+  // async signin(@Res() res: any, @Body() createUserDto: CreateUserDto) {
+  //   return await this.usersService.signin(createUserDto, this.jwtService, res);
+  // }
+
+  // @Delete('logout')
+  // @ApiOkResponse({ type: UserEntity })
+  // async logout(@Res() res: any) {
+  //   return await this.usersService.logout(res);
+  // }
 
   @Get()
   @ApiOkResponse({ type: UserEntity, isArray: true })
