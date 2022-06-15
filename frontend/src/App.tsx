@@ -1,11 +1,52 @@
-import React from 'react';
+import { useEffect } from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.css';
+import { csrfFetch } from './util/csrf';
+import NavBar from './features/navbar/Navbar';
 
 function App() {
+
+  useEffect(() => {
+    (async () => {
+      const response = await csrfFetch('/api/users/1');
+      const body = await response.json();
+      console.log(body);
+    })();
+    (async () => {
+      const response = await csrfFetch('/api/users/1', {
+        method: 'PATCH',
+        body: JSON.stringify({
+          name: 'Sean Cotter'
+        })
+      });
+      const body = await response.json();
+      console.log(body);
+    })();
+    (async () => {
+      const response = await csrfFetch('/api/users/1');
+      const body = await response.json();
+      console.log(body);
+    })();
+    // (async () => {
+    //   const response = await csrfFetch('/api/articles');
+    //   const body = await response.json();
+    //   console.log(body);
+    // })();
+    // (async () => {
+    //   const response = await csrfFetch('/api/articles');
+    //   const body = await response.json();
+    //   console.log(body);
+    // })();
+    (async () => {
+      const response = await csrfFetch('/api/articles');
+      const body = await response.json();
+      console.log(body);
+    })();
+  })
   return (
-    <div className="App">
+    <main className="App">
+      <NavBar />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
@@ -51,7 +92,7 @@ function App() {
           </a>
         </span>
       </header>
-    </div>
+    </main>
   );
 }
 
