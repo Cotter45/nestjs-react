@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { csrfFetch } from '../util/csrf';
+import { authFetch } from '../util/authFetch';
 import { RootState, AppThunk } from './store';
 
 import type { User } from '../../../prisma/models';
@@ -22,7 +22,7 @@ export interface LoginAction {
 
 export const login = 
   createAsyncThunk('session/loginUser', async ({email, password}: LoginAction) => {
-    const response = await csrfFetch("/api/users/signin", {
+    const response = await authFetch("/api/users/signin", {
       method: "POST",
       body: JSON.stringify({ email, password })
     });
@@ -32,7 +32,7 @@ export const login =
 
 export const signup = 
   createAsyncThunk('session/signupUser', async(user: User) => {
-    const response = await csrfFetch("/api/users/signup", {
+    const response = await authFetch("/api/users/signup", {
       method: "POST",
       body: JSON.stringify({ user })
     })
@@ -41,7 +41,7 @@ export const signup =
 });
 
 export const logout = (): AppThunk => async (dispatch, getState) => {
-    const response = await csrfFetch("/api/session", {
+    const response = await authFetch("/api/session", {
       method: "DELETE"
     });
     const data = await response.json();

@@ -1,4 +1,6 @@
 import { NestFactory } from '@nestjs/core';
+const cluster = require('cluster');
+import * as os from 'os';
 import helmet from 'helmet';
 import * as compression from 'compression';
 import * as csurf from 'csurf';
@@ -12,11 +14,11 @@ async function bootstrap() {
 
   if (process.env.NODE_ENV === 'development') {
     app.enableCors();
+    app.use(morgan('dev'));
   }
-  app.use(morgan('dev'));
   app.use(cookieParser());
   app.use(helmet());
-  app.use(compression());
+  app.use(compression({ level: 1 }));
   app.use(
     csurf({
       cookie: {
@@ -26,12 +28,9 @@ async function bootstrap() {
       },
     }),
   );
-  app.use(['/'], (req, res, next) => {
-    if (req.method === 'OPTIONS') {
-      res.sendStatus(200);
-    } else {
-      next();
-    }
+  app.use((_, res, next) => {
+    res.removeHeader('X-Powered-By');
+    next();
   });
   app.setGlobalPrefix('api');
 
@@ -52,6 +51,20 @@ async function bootstrap() {
   });
   // SwaggerModule.setup('api/docs', app, document);
 
-  await app.listen(5000);
+  if (cluster.isPrimary) {
+    const totalCpus = os.cpus().length;
+
+    // Fork workers.
+    for (let i = 0; i < totalCpus / 2; i++) {
+      cluster.fork();
+    }
+
+    cluster.on('exit', (worker: any) => {
+      console.log(`worker ${worker.process.pid} died`);
+      cluster.fork();
+    });
+  } else {
+    await app.listen(5000);
+  }
 }
 bootstrap();

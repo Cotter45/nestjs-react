@@ -23,7 +23,6 @@ export class isAuthenticated implements NestMiddleware {
       const secret = process.env.JWT_SECRET;
 
       const payload = this.jwt.verify(token, { secret });
-      console.log(payload);
 
       if (payload.data) {
         const user = await this.userService.findOne(payload.data.id);
